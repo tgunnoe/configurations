@@ -1,0 +1,9 @@
+* Emacs
+** base system configuration, plus user config
+*** adapt from https://gitlab.com/rycee/configurations/-/tree/master/user
+** use pure-gtk3 build from https://github.com/masm11/emacs
+* More work on sway config
+* Rootbar or waybar
+* Firefox wayland build plus extensions
+* Switch to grub2 instead of systemd boot
+* zsh with powerline10k/9k
