@@ -1,39 +1,34 @@
 { config, pkgs, options, ... }:
 let
   home-manager = builtins.fetchTarball https://github.com/rycee/home-manager/archive/release-20.03.tar.gz;
+  pinebook-pro = builtins.fetchTarball https://github.com/samueldr/wip-pinebook-pro/archive/master.tar.gz;
 in
 {
   nix.nixPath = [
     "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos"
-    "nixos-config=${builtins.getEnv ("HOME")}/src/configurations/machines/d-chapterhouse/configuration.nix:/nix/var/nix/profiles/per-user/root/channels"
+    "nixos-config=${builtins.getEnv ("HOME")}/src/configurations/machines/pinebook-pro/configuration.nix:/nix/var/nix/profiles/per-user/root/channels"
   ];
 
   imports = [
     "${home-manager}/nixos"
+    "${pinebook-pro}/pinebook_pro.nix"
     ../../modules/home.nix
     ../../modules/desktop.nix
     ./hardware-configuration.nix
   ];
 
   boot = {
-    kernelPackages = pkgs.linuxPackages_latest;
-    kernelModules = [ "kvm-amd" "kvm-intel" ];
+    cleanTmpDir = true;
     loader = {
-      # efi.canTouchEfiVariables = true;
-      systemd-boot.enable = true;
+      generic-extlinux-compatible = {
+        enable = true;
+      };
+      grub = {
+        enable = false;
+      };
     };
-
-  # grub = {
-  #   enable = true;
-  #   version = 2;
-  #   device = "/dev/sdb";
-  #   efiSupport = true;
-  #   useOSProber = true;
-  # };
-    supportedFilesystems = [ "ntfs" ];
   };
 
-  # boot.cleanTmpDir = true;
   # boot.loader.grub.efiSupport = true;
   # boot.loader.grub.zfsSupport = true;
   # boot.loader.grub.copyKernels = true;
@@ -43,12 +38,12 @@ in
   # boot.supportedFilesystems = [ "zfs" ];
 
   powerManagement.enable = true;
-  #services.tlp.enable = true;
+  services.tlp.enable = true;
   services.logind.extraConfig = "HandlePowerKey=ignore";
 
   networking = {
-    hostId = "e53dd769";
-    hostName = "chapterhouse";
+    hostId = "b16be668";
+    hostName = "gammu";
     networkmanager.enable = true;
   };
 
@@ -57,36 +52,8 @@ in
 
     desktop = {
       extraPkgs = with pkgs; [
-        android-studio
         nfs-utils
-        ntfs3g
-        openjk
-        os-prober
-        pencil
-        postman
-        radeontools
-        radeontop
 
-        riot-web
-        riot-desktop
-        rkdeveloptool
-        spotify
-        #lutris
-        steam
-        #steam-run
-        #springLobby
-        (steam.override {
-          extraPkgs = pkgs: [ locale fontconfig iana-etc steamcontroller ];
-          #        nativeOnly = true;
-        }).run
-
-        #wine
-        wineWowPackages.stable
-        winetricks
-        protontricks
-        vulkan-loader
-        vulkan-tools
-        #slack
       ];
 
       sway = {
@@ -145,26 +112,26 @@ in
   #   down = "${pkgs.openresolv}/sbin/resolvconf -d $dev";
   # };
 
-  virtualisation.libvirtd.enable = true;
+  #virtualisation.libvirtd.enable = true;
 
   #security.sudo.extraConfig = ''
   #  %wheel	ALL=(root)	NOPASSWD: ${pkgs.systemd}/bin/systemctl * openvpn-moo
   #'';
 
-  home-manager.users.tgunnoe = {
-    programs.chromium = {
-      enable = true;
-      extensions = [
-        #"dbepggeogbaibhgnhhndojpepiihcmeb" # vimium
-        "cjpalhdlnbpafiamejdnhcphjbkeiagm" # ublock origin
-        #"naepdomgkenhinolocfifgehidddafch" # browser-pass
-      ];
-    };
+  # home-manager.users.tgunnoe = {
+  #   programs.chromium = {
+  #     enable = true;
+  #     extensions = [
+  #       #"dbepggeogbaibhgnhhndojpepiihcmeb" # vimium
+  #       "cjpalhdlnbpafiamejdnhcphjbkeiagm" # ublock origin
+  #       #"naepdomgkenhinolocfifgehidddafch" # browser-pass
+  #     ];
+  #   };
 
-    xdg.configFile."chromium-flags.conf".text = ''
-      --force-device-scale-factor=1
-    '';
-  };
+  #   xdg.configFile."chromium-flags.conf".text = ''
+  #     --force-device-scale-factor=1
+  #   '';
+  # };
 
-  system.stateVersion = "19.09";
+  system.stateVersion = "20.03";
 }

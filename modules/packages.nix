@@ -2,25 +2,18 @@
 
 with pkgs; [
 
-  android-studio
+
   autoconf
   automake
   bchunk
   binutils
   cabextract
-  cachix
   cmake
-  chromium
   cryptsetup
   curl
-  #discord
   docker
   docker-compose
-  eduke32
-  #emacs
   encfs
-  endless-sky
-  #factorio
   f3
   ffmpegthumbnailer #for thumbnails in pcmanfm
   file
@@ -30,25 +23,18 @@ with pkgs; [
   gcc
   gimp
   git
-  gitAndTools.gitSVN
-  glib-networking
   glxinfo
   gnumake
-  google-chrome
   gparted
-  gzdoom
   hicolor-icon-theme
   htop
   i3status
   iftop
   inetutils
   inkscape
-  innoextract
   ispell
-  jdk11
   killall
   kitty
-  #kodi
   kvm
   libguestfs
   libjpeg
@@ -57,49 +43,38 @@ with pkgs; [
   libvdpau
   light
   lsof
-  lutris
+
   ly
-  maven
+  #maven
   mesa
-  minecraft
-  minetest
   mupdf
   ncdu
   niv
   #nmtui
   nomacs
-  ntfs3g
-  # oh-my-zsh
-  openjk
-  os-prober
+
   pavucontrol
   pciutils
   pcmanfm
   pcmanfm-qt
-  pencil
+
   #pkgsi686Linux.libva
   php
-  postman
   powerline-fonts
   python
   python27Packages.fontforge
   python3
   python37Packages.pip
   qt5.qtwayland
-  radeontools
-  radeontop
-  riot-web
-  riot-desktop
+
+
   ripgrep
-  #rkdeveloptool
+
   screen
   shared-mime-info
   signal-desktop
   sshfs-fuse
-  spotify
-  #springLobby
-  steam
-  #steam-run
+
   stress
   subversion
   tdesktop
@@ -108,23 +83,13 @@ with pkgs; [
   usbutils
   virtmanager
   wget
-  #wine
-  wineWowPackages.stable
-  winetricks
   #ycmd
   zip
   unzip
   virtmanager
-  vulkan-loader
-  vulkan-tools
   youtube-dl
   wp-cli
   gnome3.zenity
-  (steam.override {
-    extraPkgs = pkgs: [ locale fontconfig iana-etc steamcontroller ];
-    #        nativeOnly = true;
-  }).run
-
 
   ffmpeg-full
   gnupg
