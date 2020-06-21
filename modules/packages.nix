@@ -98,6 +98,7 @@ with pkgs; [
   mpv
   nixops
   nix-prefetch-git
+  nix-serve
   nmap
   p7zip
   pass

@@ -69,7 +69,7 @@ in
 
         riot-web
         riot-desktop
-        rkdeveloptool
+        #rkdeveloptool
         spotify
         #lutris
         steam

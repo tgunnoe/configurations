@@ -51,6 +51,9 @@ in with local.lib; {
     sound.enable = true;
     hardware.pulseaudio.enable = true;
     hardware.pulseaudio.package = pkgs.pulseaudioFull;
+    hardware.opengl.driSupport32Bit = true;
+    hardware.opengl.extraPackages32 = with pkgs.pkgsi686Linux; [ libva ];
+    hardware.pulseaudio.support32Bit = true;
 
     environment.systemPackages = with pkgs; [ file vim ];
     fonts = {
@@ -72,7 +75,10 @@ in with local.lib; {
     #services.illum.enable = true;
 
     services.openssh.enable = true;
-
+    services.tor = {
+      enable = true;
+      client.enable = true;
+    };
     virtualisation = {
       anbox = {
         enable = true;
