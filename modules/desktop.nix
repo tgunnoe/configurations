@@ -79,30 +79,6 @@ in with local.lib; {
       enable = true;
       client.enable = true;
     };
-    virtualisation = {
-      anbox = {
-        enable = true;
-      };
-      docker = {
-        autoPrune.enable = true;
-        enable = true;
-      };
-      lxc = {
-        enable = true;
-      };
-      libvirtd = {
-        enable = true;
-        qemuOvmf = true;
-        qemuRunAsRoot = false;
-        onBoot = "ignore";
-        onShutdown = "shutdown";
-      };
-      virtualbox = {
-        host = {
-          enable = true;
-        };
-      };
-    };
 
 
     security.sudo.enable = true;
@@ -191,7 +167,7 @@ in with local.lib; {
 
       home.sessionVariables = {
         GDK_SCALE = "-1";
-        GDK_BACKEND = "wayland";
+        GDK_BACKEND = "wayland"; #needs to be x11 for electron apps
       };
 
       xdg.enable = true;

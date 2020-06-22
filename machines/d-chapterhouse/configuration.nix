@@ -145,7 +145,30 @@ in
   #   down = "${pkgs.openresolv}/sbin/resolvconf -d $dev";
   # };
 
-  virtualisation.libvirtd.enable = true;
+  virtualisation = {
+    anbox = {
+      enable = true;
+    };
+    docker = {
+      autoPrune.enable = true;
+      enable = true;
+    };
+    lxc = {
+      enable = true;
+    };
+    libvirtd = {
+      enable = true;
+      qemuOvmf = true;
+      qemuRunAsRoot = false;
+      onBoot = "ignore";
+      onShutdown = "shutdown";
+    };
+    virtualbox = {
+      host = {
+        enable = true;
+      };
+    };
+  };
 
   #security.sudo.extraConfig = ''
   #  %wheel	ALL=(root)	NOPASSWD: ${pkgs.systemd}/bin/systemctl * openvpn-moo

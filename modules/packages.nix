@@ -13,6 +13,7 @@ with pkgs; [
   curl
   docker
   docker-compose
+  electrum
   encfs
   f3
   ffmpegthumbnailer #for thumbnails in pcmanfm
