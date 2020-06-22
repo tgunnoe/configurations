@@ -75,11 +75,11 @@ in with local.lib; {
     #services.illum.enable = true;
 
     services.openssh.enable = true;
+
     services.tor = {
       enable = true;
       client.enable = true;
     };
-
 
     security.sudo.enable = true;
     security.rtkit.enable = true;
@@ -130,7 +130,7 @@ in with local.lib; {
         slurp    # screen are selection tool
         mako     # notification daemon
         kanshi   # dynamic display configuration helper
-        imv      # image viewer
+        #imv      # image viewer
         wf-recorder # screen recorder
         wl-clipboard  # wayland vers of xclip
 
@@ -143,7 +143,6 @@ in with local.lib; {
 
         swaybg   # required by sway for controlling desktop wallpaper
         clipman
-        imv
         i3status-rust # simpler bar written in Rust
         drm_info
         gebaar-libinput  # libinput gestures utility

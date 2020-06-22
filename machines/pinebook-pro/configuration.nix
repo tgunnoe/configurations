@@ -38,7 +38,7 @@ in
   # boot.supportedFilesystems = [ "zfs" ];
 
   powerManagement.enable = true;
-  services.tlp.enable = true;
+  #services.tlp.enable = true;
   services.logind.extraConfig = "HandlePowerKey=ignore";
 
   networking = {
@@ -52,23 +52,23 @@ in
 
     desktop = {
       extraPkgs = with pkgs; [
+        light
         nfs-utils
-
       ];
 
       sway = {
         inputs = {
-          "1:1:AT_Translated_Set_2_keyboard" = {
+          "9610:30:HAILUCK_CO.,LTD_USB_KEYBOARD" = {
             xkb_layout = "us(dvorak)";
             xkb_variant = ",nodeadkeys";
             xkb_options = "ctrl:nocaps";
           };
 
-          "1739:0:Synaptics_TM3381-002" = {
+          "9610:30:HAILUCK_CO.,LTD_USB_KEYBOARD_Touchpad" = {
             pointer_accel = "0.7";
             tap = "enabled";
             dwt = "enabled";
-            natural_scroll = "enabled";
+            natural_scroll = "disabled";
           };
         };
 
@@ -104,15 +104,15 @@ in
       };
     };
   };
-
+  nixpkgs.overlays = [
+      (import ../../overlays/panfrost.nix)
+  ];
   # services.openvpn.servers.moo = {
   #   autoStart = false;
   #   config = "config ${builtins.getEnv ("HOME")}/dev/config/machines/thinkpad/moo.ovpn";
   #   up = "echo nameserver $nameserver | ${pkgs.openresolv}/sbin/resolvconf -m 0 -a $dev";
   #   down = "${pkgs.openresolv}/sbin/resolvconf -d $dev";
   # };
-
-  #virtualisation.libvirtd.enable = true;
 
   #security.sudo.extraConfig = ''
   #  %wheel	ALL=(root)	NOPASSWD: ${pkgs.systemd}/bin/systemctl * openvpn-moo

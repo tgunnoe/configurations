@@ -36,8 +36,8 @@ with pkgs; [
   ispell
   killall
   kitty
-  kvm
-  libguestfs
+  #kvm
+  #libguestfs
   libjpeg
   libusb1
   #libva
@@ -73,21 +73,19 @@ with pkgs; [
 
   screen
   shared-mime-info
-  signal-desktop
+  #signal-desktop
   sshfs-fuse
 
   stress
   subversion
-  tdesktop
+  #tdesktop
   termite
   transmission
   usbutils
-  virtmanager
   wget
   #ycmd
   zip
   unzip
-  virtmanager
   youtube-dl
   wp-cli
   gnome3.zenity
