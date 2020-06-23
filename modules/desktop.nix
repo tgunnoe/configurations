@@ -48,13 +48,16 @@ in with local.lib; {
   };
 
   config = {
-    sound.enable = true;
+    sound = {
+      enable = true;
+      extraConfig = ''
+        
+      '';
+    };
+    
     hardware.pulseaudio.enable = true;
     hardware.pulseaudio.package = pkgs.pulseaudioFull;
-    hardware.opengl.driSupport32Bit = true;
-    hardware.opengl.extraPackages32 = with pkgs.pkgsi686Linux; [ libva ];
-    hardware.pulseaudio.support32Bit = true;
-
+    
     environment.systemPackages = with pkgs; [ file vim ];
     fonts = {
       enableDefaultFonts = true;

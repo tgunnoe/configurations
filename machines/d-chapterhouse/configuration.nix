@@ -52,6 +52,10 @@ in
     networkmanager.enable = true;
   };
 
+  hardware.opengl.driSupport32Bit = true;
+  hardware.opengl.extraPackages32 = with pkgs.pkgsi686Linux; [ libva ];
+  hardware.pulseaudio.support32Bit = true;
+
   local = {
     home.git.userEmail = "t@gvno.net";
 
