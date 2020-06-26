@@ -37,6 +37,8 @@ in
   # boot.initrd.checkJournalingFS = false;
   # boot.supportedFilesystems = [ "zfs" ];
 
+  hardware.sensor.iio.enable = true;
+
   powerManagement.enable = true;
   #services.tlp.enable = true;
   services.logind.extraConfig = "HandlePowerKey=ignore";
@@ -54,6 +56,7 @@ in
       extraPkgs = with pkgs; [
         light
         nfs-utils
+        lm_sensors
       ];
 
       sway = {
@@ -69,6 +72,7 @@ in
             tap = "enabled";
             dwt = "enabled";
             natural_scroll = "disabled";
+	    
           };
         };
 
@@ -107,6 +111,12 @@ in
   nixpkgs.overlays = [
       (import ../../overlays/panfrost.nix)
   ];
+  virtualisation = {
+    docker = {
+      autoPrune.enable = true;
+      enable = true;
+    };
+  };
   # services.openvpn.servers.moo = {
   #   autoStart = false;
   #   config = "config ${builtins.getEnv ("HOME")}/dev/config/machines/thinkpad/moo.ovpn";
