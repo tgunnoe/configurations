@@ -16,6 +16,7 @@ let
   #   rev = "ce21dafd9a016ef3ed4ba3988112bcf33497fc83";
   #   sha256 = "04ldklkmc75azs6lzxfivl7qs34041d63fan6yindj936r4kqcsp";
   # };
+  nurNoPkgs = import (builtins.fetchTarball "https://github.com/nix-community/NUR/archive/master.tar.gz")  { };
 
 in with pkgs.stdenv; with lib; {
   options.local.home = with types; {
@@ -65,6 +66,8 @@ in with pkgs.stdenv; with lib; {
 
     home-manager.users.tgunnoe = mkMerge [
       {
+        imports = [ nurNoPkgs.repos.rycee.hmModules.emacs-init ];
+
         home.packages = import ./packages.nix { inherit pkgs; };
 
         home.sessionVariables = {
@@ -123,8 +126,11 @@ in with pkgs.stdenv; with lib; {
             };
         };
 
-        programs.emacs.enable = true;
-        programs.emacs.package = pkgs.emacs;
+        programs.emacs = {
+	        enable = true;
+	        package = pkgs.emacs;
+          init = import ./emacs-init.nix {inherit pkgs;};
+        };
 
         programs.fzf.enable = true;
         programs.fzf.enableZshIntegration = true;
