@@ -168,7 +168,7 @@ in with local.lib; {
       ] ++ cfg.extraPkgs;
 
       home.sessionVariables = {
-        GDK_SCALE = "-1";
+        GDK_SCALE = "2";
         GDK_BACKEND = "wayland"; #needs to be x11 for electron apps
       };
 
