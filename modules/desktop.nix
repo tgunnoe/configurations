@@ -229,12 +229,21 @@ in with local.lib; {
       gtk = {
         enable = true;
         font.package = pkgs.dejavu_fonts;
-        font.name = "DejaVu Sans 10";
+        font.name = "Ubuntu Condensed 12";
         theme.package = pkgs.pantheon.elementary-gtk-theme;
         theme.name = "elementary";
         iconTheme.package = pkgs.pantheon.elementary-icon-theme;
         iconTheme.name = "elementary";
-        gtk3.extraConfig = { gtk-application-prefer-dark-theme = true; };
+        gtk3 = {
+          extraConfig = { gtk-application-prefer-dark-theme = true; };
+          extraCss = ''
+            .termite {
+              padding: 15px;
+            }
+          '';
+        };
+
+
       };
 
       #programs.rofi.enable = true;

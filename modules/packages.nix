@@ -52,6 +52,10 @@ with pkgs; [
   ncdu
   niv
   #nmtui
+
+  yarn
+  nodejs
+
   nomacs
 
   pavucontrol
@@ -73,13 +77,12 @@ with pkgs; [
 
   screen
   shared-mime-info
-  signal-desktop
+  #signal-desktop
   sshfs-fuse
 
   stress
   subversion
   #tdesktop
-  termite
   torbrowser
   transmission
   usbutils

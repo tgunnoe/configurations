@@ -32,6 +32,9 @@
                                       (if (buffer-file-name)
                                           (abbreviate-file-name (buffer-file-name))
                                         "%b"))))
+      ;; transparency
+      (set-frame-parameter (selected-frame) 'alpha '(80 . 50))
+      (add-to-list 'default-frame-alist '(alpha . (80 . 50)))
 
       ;; Accept 'y' and 'n' rather than 'yes' and 'no'.
       (defalias 'yes-or-no-p 'y-or-n-p)
@@ -153,10 +156,10 @@
         '';
     };
 
-    base16-theme = {
-      enable = true;
-      config = "(load-theme 'base16-tomorrow-night t)";
-    };
+    # base16-theme = {
+    #   enable = true;
+    #   config = "(load-theme 'base16-tomorrow-night t)";
+    # };
 
     calc = {
       enable = true;
@@ -465,7 +468,19 @@
             (setq counsel-fzf-cmd "${fd} --type f | ${fzf} -f \"%s\"")
           '';
     };
+    hungry-delete = {
+      enable = true;
+      init = ''
+        (eval-when-compile
+        ;; Silence missing function warnings
+        (declare-function global-hungry-delete-mode "hungry-delete.el"))
+      '';
+      config = ''
+        (global-hungry-delete-mode t)
+      '';
 
+      
+    };
     nyan-mode = {
       enable = true;
       command = [ "nyan-mode" ];
@@ -480,7 +495,24 @@
         "C-c C-u" = "string-inflection-all-cycle";
       };
     };
+    git-gutter = {
+      enable = true;
+      init = ''
+        (eval-when-compile
+        ;; Silence missing function warnings
+        (declare-function global-git-gutter-mode "git-gutter.el"))
+      '';
+      config = ''
+        ;; If you enable global minor mode
+        (global-git-gutter-mode t)
+        ;; Auto update every 5 seconds
+        (custom-set-variables
+        '(git-gutter:update-interval 5))
 
+        ;; Set the foreground color of modified lines to something obvious
+        (set-face-foreground 'git-gutter:modified "purple")
+      '';
+    };
     # Configure magit, a nice mode for the git SCM.
     magit = {
       enable = true;
