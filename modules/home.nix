@@ -75,68 +75,201 @@ in with pkgs.stdenv; with lib; {
           EDITOR = "emacsclient";
         };
 
-        programs.git.enable = true;
-        programs.git.userName = cfg.git.userName;
-        programs.git.userEmail = cfg.git.userEmail;
+        programs = {
+          emacs = {
+	          enable = true;
+	          package = pkgs.emacs;
+            init = import ./emacs-init.nix {inherit pkgs;};
+          };
+          git = {
+            enable = true;
+            userName = cfg.git.userName;
+            userEmail = cfg.git.userEmail;
+          };
+          firefox = {
+            enable = true;
+            extensions =
+              with pkgs.nur.repos.rycee.firefox-addons; [
+                ublock-origin
+                browserpass
+              ];
+            profiles =
+              let defaultSettings = {
+                    "app.update.auto" = false;
+                    "browser.startup.homepage" = "https://duckduckgo.com";
+                    "browser.search.region" = "US";
+                    "browser.search.countryCode" = "US";
+                    "browser.search.isUS" = true;
+                    "browser.ctrlTab.recentlyUsedOrder" = false;
+                    "browser.newtabpage.enabled" = false;
+                    "browser.bookmarks.showMobileBookmarks" = true;
+                    "distribution.searchplugins.defaultLocale" = "en-US";
+                    "general.useragent.locale" = "en-US";
+                    "identity.fxaccounts.account.device.name" = config.networking.hostName;
+                    "privacy.trackingprotection.enabled" = true;
+                    "privacy.trackingprotection.socialtracking.enabled" = true;
+                    "privacy.trackingprotection.socialtracking.annotate.enabled" = true;
+                    "services.sync.declinedEngines" = "addons,passwords,prefs";
+                    "services.sync.engine.addons" = false;
+                    "services.sync.engineStatusChanged.addons" = true;
+                    "services.sync.engine.passwords" = false;
+                    "services.sync.engine.prefs" = false;
+                    "services.sync.engineStatusChanged.prefs" = true;
+                    "signon.rememberSignons" = false;
+                  };
+              in {
+                home = {
+                  id = 0;
+                  settings = defaultSettings // {
+                    "browser.urlbar.placeholderName" = "DuckDuckGo";
+                  };
+                };
 
-        programs.firefox.enable = true;
-        programs.firefox.extensions =
-          with pkgs.nur.repos.rycee.firefox-addons; [
-            ublock-origin
-            browserpass
-          ];
+                work = {
+                  id = 1;
+                  settings = defaultSettings // {
+                    "browser.startup.homepage" = "about:blank";
+                  };
+                };
+              };
+          }; # /firefox
 
-        programs.firefox.profiles =
-          let defaultSettings = {
-                "app.update.auto" = false;
-                "browser.startup.homepage" = "https://duckduckgo.com";
-                "browser.search.region" = "US";
-                "browser.search.countryCode" = "US";
-                "browser.search.isUS" = true;
-                "browser.ctrlTab.recentlyUsedOrder" = false;
-                "browser.newtabpage.enabled" = false;
-                "browser.bookmarks.showMobileBookmarks" = true;
-                "distribution.searchplugins.defaultLocale" = "en-US";
-                "general.useragent.locale" = "en-US";
-                "identity.fxaccounts.account.device.name" = config.networking.hostName;
-                "privacy.trackingprotection.enabled" = true;
-                "privacy.trackingprotection.socialtracking.enabled" = true;
-                "privacy.trackingprotection.socialtracking.annotate.enabled" = true;
-                "services.sync.declinedEngines" = "addons,passwords,prefs";
-                "services.sync.engine.addons" = false;
-                "services.sync.engineStatusChanged.addons" = true;
-                "services.sync.engine.passwords" = false;
-                "services.sync.engine.prefs" = false;
-                "services.sync.engineStatusChanged.prefs" = true;
-                "signon.rememberSignons" = false;
-              };
-          in {
-            home = {
-              id = 0;
-              settings = defaultSettings // {
-                "browser.urlbar.placeholderName" = "DuckDuckGo";
-              };
+          fzf = {
+            enable = true;
+            enableZshIntegration = true;
+          };
+          browserpass = {
+            enable = true;
+            browsers = [ "chrome" "chromium" "firefox" ];
+          };
+          termite = {
+            enable = true;
+            backgroundColor = "rgba(0, 0, 0, 0.6)";
+            clickableUrl = true;
+            font = "Ubuntu Mono 12";
+            allowBold = true;
+            fullscreen = true;
+
+          };
+          zsh = {
+            enable = true;
+            enableAutosuggestions = true;
+            enableCompletion = true;
+            defaultKeymap = "emacs";
+            sessionVariables = { RPROMPT = ""; };
+
+            shellAliases = {
+              # k = "kubectl";
+              # kp = "kube-prompt";
+              # kc = "kubectx";
+              # kn = "kubens";
+              t = "cd $(mktemp -d)";
             };
 
-            work = {
-              id = 1;
-              settings = defaultSettings // {
-                "browser.startup.homepage" = "about:blank";
-              };
-            };
-        };
+            oh-my-zsh.enable = true;
 
-        programs.emacs = {
-	        enable = true;
-	        package = pkgs.emacs;
-          init = import ./emacs-init.nix {inherit pkgs;};
-        };
+            plugins = [
+              {
+                name = "autopair";
+                file = "autopair.zsh";
+                src = pkgs.fetchFromGitHub {
+                  owner = "hlissner";
+                  repo = "zsh-autopair";
+                  rev = "4039bf142ac6d264decc1eb7937a11b292e65e24";
+                  sha256 = "02pf87aiyglwwg7asm8mnbf9b2bcm82pyi1cj50yj74z4kwil6d1";
+                };
+              }
+              {
+                name = "fast-syntax-highlighting";
+                file = "fast-syntax-highlighting.plugin.zsh";
+                src = pkgs.fetchFromGitHub {
+                  owner = "zdharma";
+                  repo = "fast-syntax-highlighting";
+                  rev = "v1.28";
+                  sha256 = "106s7k9n7ssmgybh0kvdb8359f3rz60gfvxjxnxb4fg5gf1fs088";
+                };
+              }
+              {
+                name = "pi-theme";
+                file = "pi.zsh-theme";
+                src = pkgs.fetchFromGitHub {
+                  owner = "tobyjamesthomas";
+                  repo = "pi";
+                  rev = "96778f903b79212ac87f706cfc345dd07ea8dc85";
+                  sha256 = "0zjj1pihql5cydj1fiyjlm3163s9zdc63rzypkzmidv88c2kjr1z";
+                };
+              }
+              {
+                name = "z";
+                file = "zsh-z.plugin.zsh";
+                src = pkgs.fetchFromGitHub {
+                  owner = "agkozak";
+                  repo = "zsh-z";
+                  rev = "41439755cf06f35e8bee8dffe04f728384905077";
+                  sha256 = "1dzxbcif9q5m5zx3gvrhrfmkxspzf7b81k837gdb93c4aasgh6x6";
+                };
+              }
+            ];
+          }; # /zsh
+          tmux = {
+            enable = true;
+            shortcut = "q";
+            keyMode = "emacs";
+            clock24 = true;
+            terminal = "screen-256color";
+            customPaneNavigationAndResize = true;
+            secureSocket = false;
+            extraConfig = ''
+            unbind [
+            unbind ]
 
-        programs.fzf.enable = true;
-        programs.fzf.enableZshIntegration = true;
+            bind ] next-window
+            bind [ previous-window
 
-        programs.browserpass.enable = true;
-        programs.browserpass.browsers = [ "chrome" "chromium" "firefox" ];
+            bind Escape copy-mode
+            bind P paste-buffer
+            bind-key -T copy-mode-vi v send-keys -X begin-selection
+            bind-key -T copy-mode-vi y send-keys -X copy-selection
+            bind-key -T copy-mode-vi r send-keys -X rectangle-toggle
+            set -g mouse on
+
+            bind-key -r C-k resize-pane -U
+            bind-key -r C-j resize-pane -D
+            bind-key -r C-h resize-pane -L
+            bind-key -r C-l resize-pane -R
+
+            bind-key -r C-M-k resize-pane -U 5
+            bind-key -r C-M-j resize-pane -D 5
+            bind-key -r C-M-h resize-pane -L 5
+            bind-key -r C-M-l resize-pane -R 5
+
+            set -g display-panes-colour white
+            set -g display-panes-active-colour red
+            set -g display-panes-time 1000
+            set -g status-justify left
+            set -g set-titles on
+            set -g set-titles-string 'tmux: #T'
+            set -g repeat-time 100
+            set -g renumber-windows on
+            set -g renumber-windows on
+
+            setw -g monitor-activity on
+            setw -g automatic-rename on
+            setw -g clock-mode-colour red
+            setw -g clock-mode-style 24
+            setw -g alternate-screen on
+
+            set -g status-left-length 100
+
+            set -g status-right-length 100
+            set -g status-right "#[fg=red,bg=default] %b %d #[fg=blue,bg=default] %R "
+            set -g status-bg default
+            setw -g window-status-format "#[fg=blue,bg=black] #I #[fg=blue,bg=black] #W "
+            setw -g window-status-current-format "#[fg=blue,bg=default] #I #[fg=red,bg=default] #W "
+
+          '';
+          };
+        }; # /programs
 
         # programs.alacritty = {
         #   enable = true;
@@ -196,126 +329,7 @@ in with pkgs.stdenv; with lib; {
         #   ];
         # } ;
 
-        programs.zsh = {
-          enable = true;
-          enableAutosuggestions = true;
-          enableCompletion = true;
-          defaultKeymap = "emacs";
-          sessionVariables = { RPROMPT = ""; };
-
-          shellAliases = {
-            # k = "kubectl";
-            # kp = "kube-prompt";
-            # kc = "kubectx";
-            # kn = "kubens";
-            t = "cd $(mktemp -d)";
-          };
-
-          oh-my-zsh.enable = true;
-
-          plugins = [
-            {
-              name = "autopair";
-              file = "autopair.zsh";
-              src = pkgs.fetchFromGitHub {
-                owner = "hlissner";
-                repo = "zsh-autopair";
-                rev = "4039bf142ac6d264decc1eb7937a11b292e65e24";
-                sha256 = "02pf87aiyglwwg7asm8mnbf9b2bcm82pyi1cj50yj74z4kwil6d1";
-              };
-            }
-            {
-              name = "fast-syntax-highlighting";
-              file = "fast-syntax-highlighting.plugin.zsh";
-              src = pkgs.fetchFromGitHub {
-                owner = "zdharma";
-                repo = "fast-syntax-highlighting";
-                rev = "v1.28";
-                sha256 = "106s7k9n7ssmgybh0kvdb8359f3rz60gfvxjxnxb4fg5gf1fs088";
-              };
-            }
-            {
-              name = "pi-theme";
-              file = "pi.zsh-theme";
-              src = pkgs.fetchFromGitHub {
-                owner = "tobyjamesthomas";
-                repo = "pi";
-                rev = "96778f903b79212ac87f706cfc345dd07ea8dc85";
-                sha256 = "0zjj1pihql5cydj1fiyjlm3163s9zdc63rzypkzmidv88c2kjr1z";
-              };
-            }
-            {
-              name = "z";
-              file = "zsh-z.plugin.zsh";
-              src = pkgs.fetchFromGitHub {
-                owner = "agkozak";
-                repo = "zsh-z";
-                rev = "41439755cf06f35e8bee8dffe04f728384905077";
-                sha256 = "1dzxbcif9q5m5zx3gvrhrfmkxspzf7b81k837gdb93c4aasgh6x6";
-              };
-            }
-          ];
-        };
-
-        # programs.tmux = {
-        #   enable = true;
-        #   shortcut = "q";
-        #   keyMode = "vi";
-        #   clock24 = true;
-        #   terminal = "screen-256color";
-        #   customPaneNavigationAndResize = true;
-        #   secureSocket = false;
-        #   extraConfig = ''
-        #     unbind [
-        #     unbind ]
-
-        #     bind ] next-window
-        #     bind [ previous-window
-
-        #     bind Escape copy-mode
-        #     bind P paste-buffer
-        #     bind-key -T copy-mode-vi v send-keys -X begin-selection
-        #     bind-key -T copy-mode-vi y send-keys -X copy-selection
-        #     bind-key -T copy-mode-vi r send-keys -X rectangle-toggle
-        #     set -g mouse on
-
-        #     bind-key -r C-k resize-pane -U
-        #     bind-key -r C-j resize-pane -D
-        #     bind-key -r C-h resize-pane -L
-        #     bind-key -r C-l resize-pane -R
-
-        #     bind-key -r C-M-k resize-pane -U 5
-        #     bind-key -r C-M-j resize-pane -D 5
-        #     bind-key -r C-M-h resize-pane -L 5
-        #     bind-key -r C-M-l resize-pane -R 5
-
-        #     set -g display-panes-colour white
-        #     set -g display-panes-active-colour red
-        #     set -g display-panes-time 1000
-        #     set -g status-justify left
-        #     set -g set-titles on
-        #     set -g set-titles-string 'tmux: #T'
-        #     set -g repeat-time 100
-        #     set -g renumber-windows on
-        #     set -g renumber-windows on
-
-        #     setw -g monitor-activity on
-        #     setw -g automatic-rename on
-        #     setw -g clock-mode-colour red
-        #     setw -g clock-mode-style 24
-        #     setw -g alternate-screen on
-
-        #     set -g status-left-length 100
-        #     set -g status-left "#(${pkgs.bash}/bin/bash ${kubeTmux}/kube.tmux 250 green colour3)  "
-        #     set -g status-right-length 100
-        #     set -g status-right "#[fg=red,bg=default] %b %d #[fg=blue,bg=default] %R "
-        #     set -g status-bg default
-        #     setw -g window-status-format "#[fg=blue,bg=black] #I #[fg=blue,bg=black] #W "
-        #     setw -g window-status-current-format "#[fg=blue,bg=default] #I #[fg=red,bg=default] #W "
-
-        #     run-shell ${tmuxYank}/yank.tmux
-        #   '';
-        # };
+        # programs.
       }
 
 
