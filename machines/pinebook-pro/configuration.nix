@@ -37,7 +37,12 @@ in
   # boot.initrd.checkJournalingFS = false;
   # boot.supportedFilesystems = [ "zfs" ];
 
-  hardware.sensor.iio.enable = true;
+  hardware = {
+    sensor.iio.enable = true;
+    bluetooth = {
+      enable = true;
+    };
+  };
 
   powerManagement.enable = true;
   #services.tlp.enable = true;

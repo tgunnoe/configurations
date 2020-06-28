@@ -49,6 +49,7 @@
       ;; Always show line and column number in the mode line.
       (line-number-mode)
       (column-number-mode)
+      (global-display-line-numbers-mode 1)
 
       ;; Enable some features that are disabled by default.
       (put 'narrow-to-region 'disabled nil)
@@ -458,6 +459,7 @@
         "C-x C-r" = "counsel-recentf";
         "C-x C-y" = "counsel-yank-pop";
         "M-x" = "counsel-M-x";
+        "C-c g" = "counsel-git-grep";
       };
       diminish = [ "counsel-mode" ];
       config =
@@ -517,7 +519,8 @@
     magit = {
       enable = true;
       bind = {
-        "C-c g" = "magit-status";
+        "M-g M-s" = "magit-status";
+        "M-g M-c" = "magit-checkout";
       };
       config = ''
           (setq magit-completing-read-function 'ivy-completing-read)
