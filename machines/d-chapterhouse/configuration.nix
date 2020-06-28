@@ -88,6 +88,7 @@ in
         wineWowPackages.stable
         winetricks
         protontricks
+        torbrowser
         vulkan-loader
         vulkan-tools
         #slack

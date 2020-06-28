@@ -156,6 +156,7 @@ in with pkgs.stdenv; with lib; {
             enableAutosuggestions = true;
             enableCompletion = true;
             defaultKeymap = "emacs";
+            initExtra = "source ${pkgs.zsh-powerlevel9k}/share/zsh-powerlevel9k/powerlevel9k.zsh-theme";
             sessionVariables = { RPROMPT = ""; };
 
             shellAliases = {

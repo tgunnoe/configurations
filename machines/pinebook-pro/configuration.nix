@@ -72,7 +72,6 @@ in
             tap = "enabled";
             dwt = "enabled";
             natural_scroll = "disabled";
-	    
           };
         };
 

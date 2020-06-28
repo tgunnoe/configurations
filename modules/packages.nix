@@ -83,7 +83,6 @@ with pkgs; [
   stress
   subversion
   #tdesktop
-  torbrowser
   transmission
   usbutils
   wget
