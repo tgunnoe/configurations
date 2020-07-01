@@ -90,6 +90,9 @@
       ;; click happened.
       (setq mouse-yank-at-point t)
 
+      ;; Turn on mouse
+      (xterm-mouse-mode t)
+
       ;; Enable a few useful commands that are initially disabled.
       (put 'upcase-region 'disabled nil)
       (put 'downcase-region 'disabled nil)
@@ -116,6 +119,22 @@
       ;; Shouldn't highlight trailing spaces in terminal mode.
       (add-hook 'term-mode #'rah-disable-trailing-whitespace-mode)
       (add-hook 'term-mode-hook #'rah-disable-trailing-whitespace-mode)
+
+      ;; Remove trailing white space upon saving
+      ;; Note: because of a bug in EIN we only delete trailing whitespace
+      ;; when not in EIN mode.
+      (add-hook 'before-save-hook
+                (lambda ()
+                  (when (not (derived-mode-p 'ein:notebook-multilang-mode))
+	              (delete-trailing-whitespace))))
+      ;; Auto-wrap at 80 characters
+      (setq-default auto-fill-function 'do-auto-fill)
+      (setq-default fill-column 80)
+      (turn-on-auto-fill)
+
+      ;; Disable auto-fill-mode in programming mode
+      (add-hook 'prog-mode-hook (lambda () (auto-fill-mode -1)))
+
     '';
 
   usePackage = {

@@ -93,6 +93,7 @@ in with pkgs.stdenv; with lib; {
                 ublock-origin
                 browserpass
               ];
+            #package = pkgs.firefox-wayland;
             profiles =
               let defaultSettings = {
                     "app.update.auto" = false;

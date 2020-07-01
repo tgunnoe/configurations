@@ -42,7 +42,6 @@ with pkgs; [
   libusb1
   #libva
   libvdpau
-  light
   lsof
 
   ly
@@ -64,7 +63,12 @@ with pkgs; [
   pcmanfm-qt
 
   #pkgsi686Linux.libva
+
+  # PHP
   php
+  #phpPackages.platformsh_cli
+  phpPackages.composer
+
   powerline-fonts
   python
   python27Packages.fontforge
@@ -77,6 +81,7 @@ with pkgs; [
 
   screen
   shared-mime-info
+  #signal-cli
   #signal-desktop
   sshfs-fuse
 

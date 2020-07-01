@@ -51,14 +51,14 @@ in with local.lib; {
     sound = {
       enable = true;
       extraConfig = ''
-        
+
       '';
     };
-    
+
     hardware.pulseaudio.enable = true;
     hardware.pulseaudio.package = pkgs.pulseaudioFull;
-    
-    environment.systemPackages = with pkgs; [ file vim ];
+
+    environment.systemPackages = with pkgs; [ file  ];
     fonts = {
       enableDefaultFonts = true;
       fonts = with pkgs; [
@@ -107,7 +107,7 @@ in with local.lib; {
         "wheel"
       ];
     };
-
+    programs.light.enable = true;
     programs.sway = {
       enable = true;
       extraPackages = []; # handled via home-manager
@@ -245,7 +245,6 @@ in with local.lib; {
 
 
       };
-
       #programs.rofi.enable = true;
 
       services.gpg-agent = {

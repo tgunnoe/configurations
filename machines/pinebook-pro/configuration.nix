@@ -28,7 +28,10 @@ in
       };
     };
   };
-
+  console = {
+    keyMap = "dvorak";
+    earlySetup = true;
+  };
   # boot.loader.grub.efiSupport = true;
   # boot.loader.grub.zfsSupport = true;
   # boot.loader.grub.copyKernels = true;
@@ -73,10 +76,12 @@ in
           };
 
           "9610:30:HAILUCK_CO.,LTD_USB_KEYBOARD_Touchpad" = {
-            pointer_accel = "0.7";
+            accel_profile = "adaptive";
+            pointer_accel = "0.3";
             tap = "enabled";
             dwt = "enabled";
             natural_scroll = "disabled";
+            middle_emulation = "enabled";
           };
         };
 
@@ -116,6 +121,9 @@ in
       (import ../../overlays/panfrost.nix)
   ];
   virtualisation = {
+    # anbox = {
+    # enable = true;
+    # };
     docker = {
       autoPrune.enable = true;
       enable = true;
