@@ -75,7 +75,8 @@ in
         riot-desktop
         #rkdeveloptool
         spotify
-        #lutris
+        lutris
+        signal-desktop
         steam
         #steam-run
         #springLobby
