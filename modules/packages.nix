@@ -1,7 +1,17 @@
 { pkgs }:
+let
+  extra-container = let
+    src = builtins.fetchGit {
+      url = "https://github.com/erikarvstedt/extra-container.git";
+      # Recommended: Specify a git revision hash
+      # rev = "...";
+    };
+  in
+    pkgs.callPackage src { pkgSrc = src; };
+
+in
 
 with pkgs; [
-
 
   autoconf
   automake
@@ -49,7 +59,6 @@ with pkgs; [
   mesa
   mupdf
   ncdu
-  niv
   #nmtui
 
   yarn
@@ -64,17 +73,8 @@ with pkgs; [
 
   #pkgsi686Linux.libva
 
-  # PHP
-  php
-  #phpPackages.platformsh_cli
-  phpPackages.composer
 
   powerline-fonts
-  python
-  python27Packages.fontforge
-  python3
-  python37Packages.pip
-  qt5.qtwayland
 
 
   ripgrep
@@ -103,9 +103,28 @@ with pkgs; [
   htop
   jq
   mpv
-  nixops
+
+  # Nix-related
+  extra-container
+  nix-diff
   nix-prefetch-git
   nix-serve
+  nixops
+  nixos-generators
+  niv
+
+  # PHP
+  php
+  #phpPackages.platformsh_cli
+  php73Packages.composer
+
+  # Python
+  python
+  python27Packages.fontforge
+  python3
+  python37Packages.pip
+  qt5.qtwayland
+
   nmap
   p7zip
   pass
