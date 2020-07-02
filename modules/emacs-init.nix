@@ -91,7 +91,7 @@
       (setq mouse-yank-at-point t)
 
       ;; Turn on mouse
-      (xterm-mouse-mode t)
+      ;;(xterm-mouse-mode t)
 
       ;; Enable a few useful commands that are initially disabled.
       (put 'upcase-region 'disabled nil)
@@ -500,7 +500,7 @@
         (global-hungry-delete-mode t)
       '';
 
-      
+
     };
     nyan-mode = {
       enable = true;
@@ -869,7 +869,17 @@
                 org-use-fast-todo-selection t
                 org-adapt-indentation nil)
 
-          (setq org-tag-alist rah-org-tag-alist)
+          ;; FIXME, setup rah-org replacement
+          (setq org-tag-alist '((:startgroup . nil)
+                      ("@work" . ?w) ("@home" . ?h)
+                      ("@out" . ?o)
+                      (:endgroup . nil)
+                      (:startgroup . nil)
+                      ("!paid" . ?p) ("!unpaid" . ?u)
+                      (:endgroup . nil)
+                      ("bitcoin") ("emacs") ("linux") ("books") ("gaming") ("programming") ("free software") ("open hardware")
+                      ("research") ("study") ("review") ("code") ("design")
+                      ("exercise") ("meet")))
 
           ;; Refiling should include not only the current org buffer but
           ;; also the standard org files. Further, set up the refiling to
@@ -891,7 +901,7 @@
                             "CANCELED(c@!)")))
 
           ;; Setup org capture.
-          (setq org-default-notes-file (rah-org-file "capture"))
+          (setq org-default-notes-file (concat org-directory "/inbox.org"))
 
           ;; Active Org-babel languages
           (org-babel-do-load-languages 'org-babel-load-languages
@@ -914,7 +924,9 @@
       defer = true;
       config = ''
           ;; Set up agenda view.
-          (setq org-agenda-files (rah-all-org-files)
+          (setq org-agenda-files (list "~/org/inbox.org"
+                                       "~/org/gtd.org"
+                                       "~/org/tickler.org")
                 org-agenda-span 5
                 org-deadline-warning-days 14
                 org-agenda-show-all-dates t
@@ -981,7 +993,12 @@
       enable = true;
       after = [ "org" ];
       config = ''
-          (setq org-capture-templates rah-org-capture-templates)
+          (setq org-capture-templates '(("t" "Todo [inbox]" entry
+                                        (file+headline "~/org/inbox.org" "Tasks")
+                                        "* TODO %i%?")
+                                        ("T" "Tickler" entry
+                                        (file+headline "~/org/tickler.org" "Tickler")
+                                        "* %i%? \n %U")))
         '';
     };
 
