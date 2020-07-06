@@ -17,6 +17,10 @@ let
   #   sha256 = "04ldklkmc75azs6lzxfivl7qs34041d63fan6yindj936r4kqcsp";
   # };
   nurNoPkgs = import (builtins.fetchTarball "https://github.com/nix-community/NUR/archive/master.tar.gz")  { };
+  unstable = import
+    (builtins.fetchTarball https://github.com/nixos/nixpkgs/archive/nixos-unstable.tar.gz)
+    # reuse the current configuration
+    { config = config.nixpkgs.config; };
 
 in with pkgs.stdenv; with lib; {
   options.local.home = with types; {
@@ -68,7 +72,7 @@ in with pkgs.stdenv; with lib; {
       {
         imports = [ nurNoPkgs.repos.rycee.hmModules.emacs-init ];
 
-        home.packages = import ./packages.nix { inherit pkgs; };
+        home.packages = import ./packages.nix { inherit pkgs unstable; };
 
         home.sessionVariables = {
           PAGER = "less -R";
@@ -92,6 +96,8 @@ in with pkgs.stdenv; with lib; {
               with pkgs.nur.repos.rycee.firefox-addons; [
                 ublock-origin
                 browserpass
+                umatrix
+                https-everywhere
               ];
             #package = pkgs.firefox-wayland;
             profiles =

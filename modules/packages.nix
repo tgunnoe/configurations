@@ -1,5 +1,15 @@
-{ pkgs }:
+{ pkgs, unstable }:
+
 let
+
+  php = unstable.php73.buildEnv {
+    extraConfig = ''
+      memory_limit = 2G;
+      error_log = /home/tgunnoe/src/phperror.log;
+    '';
+    extensions = { all, ... }: with all; [ imagick opcache json mysqli filter mysqlnd zlib gd openssl];
+  };
+
   extra-container = let
     src = builtins.fetchGit {
       url = "https://github.com/erikarvstedt/extra-container.git";
@@ -114,10 +124,8 @@ with pkgs; [
   niv
 
   # PHP
-  php
-  #phpPackages.platformsh_cli
+  php # My custom php
   php73Packages.composer
-
   # Python
   python
   python27Packages.fontforge
