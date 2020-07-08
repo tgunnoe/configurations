@@ -924,7 +924,54 @@
           ;; Some general stuff.
           (setq org-reverse-note-order t
                 org-use-fast-todo-selection t
-                org-adapt-indentation nil)
+                org-adapt-indentation nil
+                org-ellipsis " ◂")
+
+          ;; html export stuff
+          (setq custom-html-preamble "
+            <ul>
+              <li><a href=\"./index.html\">Home</a></li>
+            </ul>
+            <div id=\"toc\"></div>
+          ")
+
+          ;; Change the `author' here.
+          (setq custom-html-postamble "
+            <p class=\"author\">Tgunnoe</p>
+
+            <!-- Initialize Custom Styling JS -->
+            <script src=\"./js/styling.js\"></script>
+          ")
+
+          (setq org-html-postamble t)
+
+          (setq org-html-preamble-format `(("en" ,custom-html-preamble)))
+
+          (setq org-html-postamble-format `(("en" ,custom-html-postamble)))
+          (setq org-publish-project-alist
+          '(
+
+            ;; ... add all the components here (see below)...
+            ("org-notes"
+              :base-directory "~/org/"
+              :base-extension "org"
+              :publishing-directory "~/org/out/"
+              :recursive t
+              :publishing-function org-html-publish-to-html
+              :headline-levels 1             ; Just the default for this project.
+              :auto-preamble t
+            )
+
+            ("org-static"
+              :base-directory "~/org/"
+              :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
+              :publishing-directory "~/org/out/"
+              :recursive t
+              :publishing-function org-publish-attachment
+            )
+            ("org" :components ("org-notes" "org-static"))
+          ))
+
 
           ;; FIXME, setup rah-org replacement
           (setq org-tag-alist '((:startgroup . nil)
@@ -950,7 +997,7 @@
           ;; Add some todo keywords.
           (setq org-todo-keywords
                 '((sequence "TODO(t)"
-                            "STARTED(s!)"
+                            "INPROGRESS(i!)"
                             "WAITING(w@/!)"
                             "DELEGATED(@!)"
                             "|"
@@ -974,7 +1021,10 @@
           (unbind-key "C-c w" org-mode-map)
         '';
     };
-
+    toc-org = {
+      enable = true;
+      after = [ "org" ];
+    };
     org-agenda = {
       enable = true;
       after = [ "org" ];
@@ -1010,7 +1060,11 @@
       after = [ "org" ];
       defer = true;
     };
-
+    ob-verb = {
+      enable = true;
+      after = [ "org" ];
+      defer = true;
+    };
     org-table = {
       enable = true;
       after = [ "org" ];
