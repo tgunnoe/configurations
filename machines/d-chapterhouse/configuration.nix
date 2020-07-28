@@ -1,6 +1,7 @@
 { config, pkgs, options, ... }:
 let
   home-manager = builtins.fetchTarball https://github.com/rycee/home-manager/archive/release-20.03.tar.gz;
+  unstablepkgs = import <nixos-unstable> {};
 in
 {
   nix.nixPath = [
@@ -51,9 +52,13 @@ in
     hostName = "chapterhouse";
     networkmanager.enable = true;
   };
-
-  hardware.opengl.driSupport32Bit = true;
-  hardware.opengl.extraPackages32 = with pkgs.pkgsi686Linux; [ libva ];
+  hardware.steam-hardware.enable = true;
+  hardware.opengl = {
+    enable = true;
+    package = unstablepkgs.mesa.drivers;
+    driSupport32Bit = true;
+    extraPackages32 = with pkgs.pkgsi686Linux; [ libva ];
+  };
   hardware.pulseaudio.support32Bit = true;
 
   local = {
@@ -62,6 +67,7 @@ in
     desktop = {
       extraPkgs = with pkgs; [
         android-studio
+        pkgs.pkgsi686Linux.freetype
         nfs-utils
         ntfs3g
         openjk
@@ -70,7 +76,6 @@ in
         postman
         radeontools
         radeontop
-
         riot-web
         riot-desktop
         #rkdeveloptool
@@ -84,7 +89,7 @@ in
           extraPkgs = pkgs: [ locale fontconfig iana-etc steamcontroller ];
           #        nativeOnly = true;
         }).run
-
+        tdesktop
         #wine
         wineWowPackages.stable
         winetricks
@@ -152,9 +157,10 @@ in
   # };
 
   virtualisation = {
-    anbox = {
-      enable = true;
-    };
+    # Anbox doesnt work with kernel 5.7
+    # anbox = {
+    #   enable = true;
+    # };
     docker = {
       autoPrune.enable = true;
       enable = true;
@@ -195,5 +201,5 @@ in
     '';
   };
 
-  system.stateVersion = "19.09";
+  system.stateVersion = "20.03";
 }
