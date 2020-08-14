@@ -1,12 +1,17 @@
 { config, pkgs, options, ... }:
 let
   home-manager = builtins.fetchTarball https://github.com/rycee/home-manager/archive/release-20.03.tar.gz;
-  pinebook-pro = builtins.fetchTarball https://github.com/samueldr/wip-pinebook-pro/archive/master.tar.gz;
+  pinebook-pro = builtins.fetchTarball https://github.com/samueldr/wip-pinebook-pro/archive/d72645f6d5421979a2c452f883907c70a2e28b93.tar.gz;
+  mobile-nixpkgs-unstable = builtins.fetchTarball https://github.com/NixOS/nixpkgs/archive/8e2b14aceb1d40c7e8b84c03a7c78955359872bb.tar.gz;
 in
 {
   nix.nixPath = [
-    "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos"
-    "nixos-config=${builtins.getEnv ("HOME")}/src/configurations/machines/pinebook-pro/configuration.nix:/nix/var/nix/profiles/per-user/root/channels"
+    # Needed if cache hasnt been built yet, otherwise use latest build from mobile-nixos
+    "nixpkgs=${mobile-nixpkgs-unstable}"
+    "nixos-config=${builtins.getEnv ("HOME")}/src/configurations/machines/pinebook-pro/configuration.nix"
+    #"nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos"
+    #"nixos-config=${builtins.getEnv ("HOME")}/src/configurations/machines/pinebook-pro/configuration.nix:/nix/var/nix/profiles/per-user/root/channels"
+
   ];
 
   imports = [
@@ -18,6 +23,7 @@ in
   ];
 
   boot = {
+    kernelPackages = pkgs.linuxPackages_pinebookpro_latest;
     cleanTmpDir = true;
     loader = {
       generic-extlinux-compatible = {
@@ -508,6 +514,7 @@ state.rockchipes8316c {
 
     desktop = {
       extraPkgs = with pkgs; [
+        libinput
         light
         nfs-utils
         lm_sensors
@@ -515,20 +522,22 @@ state.rockchipes8316c {
 
       sway = {
         inputs = {
-          "9610:30:HAILUCK_CO.,LTD_USB_KEYBOARD" = {
+          "9610:30:Pine64_Pinebook_Pro" = {
             xkb_layout = "us(dvorak)";
             xkb_variant = ",nodeadkeys";
             xkb_options = "ctrl:nocaps";
           };
 
-          "9610:30:HAILUCK_CO.,LTD_USB_KEYBOARD_Touchpad" = {
+          "9610:30:Pine64_Pinebook_Pro_Touchpad" = {
             accel_profile = "adaptive";
-            pointer_accel = "0.3";
+            pointer_accel = "0.4";
+            drag = "enabled";
             tap = "enabled";
             dwt = "enabled";
             natural_scroll = "disabled";
             middle_emulation = "enabled";
           };
+
         };
 
         outputs = [
