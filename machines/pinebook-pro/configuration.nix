@@ -1,7 +1,9 @@
 { config, pkgs, options, ... }:
 let
   home-manager = builtins.fetchTarball https://github.com/rycee/home-manager/archive/release-20.03.tar.gz;
+  #feature/gfx-u-boot branch, before linux 5.8 commit
   pinebook-pro = builtins.fetchTarball https://github.com/samueldr/wip-pinebook-pro/archive/d72645f6d5421979a2c452f883907c70a2e28b93.tar.gz;
+  # latest hydra builds from mobile-nixos project
   mobile-nixpkgs-unstable = builtins.fetchTarball https://github.com/NixOS/nixpkgs/archive/8e2b14aceb1d40c7e8b84c03a7c78955359872bb.tar.gz;
 in
 {
