@@ -532,7 +532,7 @@ state.rockchipes8316c {
 
           "9610:30:Pine64_Pinebook_Pro_Touchpad" = {
             accel_profile = "adaptive";
-            pointer_accel = "0.4";
+            pointer_accel = "0.3";
             drag = "enabled";
             tap = "enabled";
             dwt = "enabled";
@@ -611,6 +611,8 @@ state.rockchipes8316c {
   #     --force-device-scale-factor=1
   #   '';
   # };
-
+  environment.variables = {
+    PAN_MESA_DEBUG = "gles3";
+  };
   system.stateVersion = "20.03";
 }
