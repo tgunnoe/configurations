@@ -53,10 +53,16 @@ in with pkgs.stdenv; with lib; {
     time.timeZone = "America/New_York";
     nix.trustedUsers = [ "root" "tgunnoe" ];
     nixpkgs.config.allowUnfree = true;
-    nix.extraOptions = ''
-      plugin-files = ${pkgs.nix-plugins.override {
-               nix = config.nix.package; }}/lib/nix/plugins/libnix-extra-builtins.so
-    '';
+    nix = {
+     package = pkgs.nixUnstable;
+     extraOptions = ''
+       experimental-features = nix-command flakes
+     '';
+    };
+    # nix.extraOptions = ''
+    #   plugin-files = ${pkgs.nix-plugins.override {
+    #            nix = config.nix.package; }}/lib/nix/plugins/libnix-extra-builtins.so
+    # '';
 
     nixpkgs.config.packageOverrides = pkgs: {
       nur = import (builtins.fetchTarball "https://github.com/nix-community/NUR/archive/master.tar.gz") {
