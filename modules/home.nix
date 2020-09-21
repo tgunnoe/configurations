@@ -54,10 +54,10 @@ in with pkgs.stdenv; with lib; {
     nix.trustedUsers = [ "root" "tgunnoe" ];
     nixpkgs.config.allowUnfree = true;
     nix = {
-     package = pkgs.nixUnstable;
-     extraOptions = ''
-       experimental-features = nix-command flakes
-     '';
+      package = pkgs.nixUnstable;
+      extraOptions = ''
+        experimental-features = nix-command flakes
+      '';
     };
     # nix.extraOptions = ''
     #   plugin-files = ${pkgs.nix-plugins.override {

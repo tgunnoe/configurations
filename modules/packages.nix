@@ -40,7 +40,7 @@ with pkgs; [
   file
   findutils
   #firefox-wayland
-  freetype
+  #freetype
   gcc
   gimp
   git
@@ -52,15 +52,19 @@ with pkgs; [
   i3status
   iftop
   inetutils
+
   inkscape
+  pencil
+
   ispell
   killall
   kitty
   #kvm
   #libguestfs
+  kodi
   libjpeg
   libusb1
-  #libva
+  libva
   libvdpau
   lsof
 
@@ -97,6 +101,7 @@ with pkgs; [
 
   stress
   subversion
+
   #tdesktop
   transmission
   usbutils
@@ -128,7 +133,6 @@ with pkgs; [
   php73Packages.composer
   # Python
   python
-  python27Packages.fontforge
   python3
   python37Packages.pip
   qt5.qtwayland
@@ -138,5 +142,7 @@ with pkgs; [
   pass
   rsync
   up
+
+  wireguard
 
 ]

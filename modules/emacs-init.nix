@@ -395,10 +395,10 @@
       ];
     };
 
-    idris-mode = {
-      enable = true;
-      mode = [ ''"\\.idr\\'"'' ];
-    };
+    #idris-mode = {
+    #  enable = true;
+    #  mode = [ ''"\\.idr\\'"'' ];
+    #};
 
     ispell = {
       enable = true;
@@ -913,7 +913,9 @@
         };
       };
     };
-
+    pug-mode = {
+      enable = true;
+    };
     nix-mode = {
       enable = true;
       mode = [ ''"\\.nix\\'"'' ];

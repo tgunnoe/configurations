@@ -4,11 +4,13 @@ let
   unstablepkgs = import <nixos-unstable> {};
 in
 {
-  nix.nixPath = [
-    "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos"
-    "nixos-config=${builtins.getEnv ("HOME")}/src/configurations/machines/d-chapterhouse/configuration.nix:/nix/var/nix/profiles/per-user/root/channels"
-  ];
-
+  nix = {
+    nixPath = [
+      "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos"
+      "nixos-config=${builtins.getEnv ("HOME")}/src/configurations/machines/d-chapterhouse/configuration.nix:/nix/var/nix/profiles/per-user/root/channels"
+    ];
+    # package = pkgs.nixUnstable;
+  };
   imports = [
     "${home-manager}/nixos"
     ../../modules/home.nix
@@ -46,28 +48,61 @@ in
   powerManagement.enable = true;
   #services.tlp.enable = true;
   services.logind.extraConfig = "HandlePowerKey=ignore";
-
   networking = {
     hostId = "e53dd769";
     hostName = "chapterhouse";
     networkmanager.enable = true;
+    firewall.allowedTCPPorts = [ 8000 ];
+    # wireguard.interfaces = {
+    #   # "wg0" is the network interface name. You can name the interface arbitrarily.
+    #   wg0 = {
+    #     # Determines the IP address and subnet of the client's end of the tunnel interface.
+    #     ips = [ "10.100.0.2/24" ];
+
+    #     # Path to the private key file.
+    #     #
+    #     # Note: The private key can also be included inline via the privateKey option,
+    #     # but this makes the private key world-readable; thus, using privateKeyFile is
+    #     # recommended.
+    #     privateKeyFile = "/home/tgunnoe/wireguard-keys/private";
+
+    #     peers = [
+    #       # For a client configuration, one peer entry for the server will suffice.
+    #       {
+    #         # Public key of the server (not a file path).
+    #         publicKey = "fk9gWhGWcWinD9daeZqRURAIPI8oK+1aUlf+xpNQZH0=";
+
+    #         # Forward all the traffic via VPN.
+    #         allowedIPs = [ "0.0.0.0/0" ];
+    #         # Or forward only particular subnets
+    #         #allowedIPs = [ "10.100.0.1" "91.108.12.0/22" ];
+
+    #         # Set this to the server IP and port.
+    #         endpoint = "45.33.16.7:51820";
+
+    #         # Send keepalives every 25 seconds. Important to keep NAT tables alive.
+    #         persistentKeepalive = 25;
+    #       }
+    #     ];
+    #   };
+    # };
   };
   hardware.steam-hardware.enable = true;
   hardware.opengl = {
     enable = true;
-    package = unstablepkgs.mesa.drivers;
+    #package = unstablepkgs.mesa.drivers;
     driSupport32Bit = true;
     extraPackages32 = with pkgs.pkgsi686Linux; [ libva ];
   };
   hardware.pulseaudio.support32Bit = true;
-
+  hardware.bluetooth.enable = true;
   local = {
     home.git.userEmail = "t@gvno.net";
 
     desktop = {
       extraPkgs = with pkgs; [
         android-studio
-        pkgs.pkgsi686Linux.freetype
+        #pkgs.pkgsi686Linux.freetype
         nfs-utils
         ntfs3g
         openjk
@@ -80,7 +115,7 @@ in
         riot-desktop
         #rkdeveloptool
         spotify
-        lutris
+        unstablepkgs.lutris
         signal-desktop
         steam
         #steam-run
@@ -148,13 +183,6 @@ in
       };
     };
   };
-
-  # services.openvpn.servers.moo = {
-  #   autoStart = false;
-  #   config = "config ${builtins.getEnv ("HOME")}/dev/config/machines/thinkpad/moo.ovpn";
-  #   up = "echo nameserver $nameserver | ${pkgs.openresolv}/sbin/resolvconf -m 0 -a $dev";
-  #   down = "${pkgs.openresolv}/sbin/resolvconf -d $dev";
-  # };
 
   virtualisation = {
     # Anbox doesnt work with kernel 5.7
