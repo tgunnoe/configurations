@@ -62,7 +62,7 @@ in with local.lib; {
         corefonts
         dejavu_fonts
         inconsolata
-        #nerdfonts
+        nerdfonts
         powerline-fonts
         roboto
         roboto-mono

@@ -2,9 +2,9 @@
 let
   home-manager = builtins.fetchTarball https://github.com/rycee/home-manager/archive/release-20.03.tar.gz;
   #feature/gfx-u-boot branch, before linux 5.8 commit
-  pinebook-pro = builtins.fetchTarball https://github.com/samueldr/wip-pinebook-pro/archive/d72645f6d5421979a2c452f883907c70a2e28b93.tar.gz;
+  pinebook-pro = builtins.fetchTarball https://github.com/colemickens/wip-pinebook-pro/archive/17517bc39e2fc27287948c1142ff0f7a6fb87821.tar.gz;
   # latest hydra builds from mobile-nixos project
-  mobile-nixpkgs-unstable = builtins.fetchTarball https://github.com/NixOS/nixpkgs/archive/8e2b14aceb1d40c7e8b84c03a7c78955359872bb.tar.gz;
+  mobile-nixpkgs-unstable = builtins.fetchTarball https://github.com/NixOS/nixpkgs/archive/24c9b05ac53e422f1af81a156f1fd58499eb27fb.tar.gz;
 in
 {
   nix.nixPath = [
@@ -524,15 +524,15 @@ state.rockchipes8316c {
 
       sway = {
         inputs = {
-          "9610:30:Pine64_Pinebook_Pro" = {
+          "9610:30:HAILUCK_CO.,LTD_USB_KEYBOARD" = {
             xkb_layout = "us(dvorak)";
             xkb_variant = ",nodeadkeys";
             xkb_options = "ctrl:nocaps";
           };
 
-          "9610:30:Pine64_Pinebook_Pro_Touchpad" = {
+          "9610:30:HAILUCK_CO.,LTD_USB_KEYBOARD_Touchpad" = {
             accel_profile = "adaptive";
-            pointer_accel = "0.3";
+            pointer_accel = "0.6";
             drag = "enabled";
             tap = "enabled";
             dwt = "enabled";
@@ -586,16 +586,6 @@ state.rockchipes8316c {
       enable = true;
     };
   };
-  # services.openvpn.servers.moo = {
-  #   autoStart = false;
-  #   config = "config ${builtins.getEnv ("HOME")}/dev/config/machines/thinkpad/moo.ovpn";
-  #   up = "echo nameserver $nameserver | ${pkgs.openresolv}/sbin/resolvconf -m 0 -a $dev";
-  #   down = "${pkgs.openresolv}/sbin/resolvconf -d $dev";
-  # };
-
-  #security.sudo.extraConfig = ''
-  #  %wheel	ALL=(root)	NOPASSWD: ${pkgs.systemd}/bin/systemctl * openvpn-moo
-  #'';
 
   # home-manager.users.tgunnoe = {
   #   programs.chromium = {

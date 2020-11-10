@@ -2,13 +2,13 @@
 
 let
 
-  php = unstable.php73.buildEnv {
-    extraConfig = ''
-      memory_limit = 2G;
-      error_log = /home/tgunnoe/src/phperror.log;
-    '';
-    extensions = { all, ... }: with all; [ imagick opcache json mysqli filter mysqlnd zlib gd openssl];
-  };
+  # php = unstable.php73.buildEnv {
+  #   extraConfig = ''
+  #     memory_limit = 2G;
+  #     error_log = /home/tgunnoe/src/phperror.log;
+  #   '';
+  #   extensions = { all, ... }: with all; [ imagick opcache json mysqli filter mysqlnd zlib gd openssl];
+  # };
 
   extra-container = let
     src = builtins.fetchGit {
@@ -40,7 +40,7 @@ with pkgs; [
   file
   findutils
   #firefox-wayland
-  #freetype
+  freetype
   gcc
   gimp
   git
@@ -52,19 +52,15 @@ with pkgs; [
   i3status
   iftop
   inetutils
-
   inkscape
-  pencil
-
   ispell
   killall
   kitty
   #kvm
   #libguestfs
-  kodi
   libjpeg
   libusb1
-  libva
+  #libva
   libvdpau
   lsof
 
@@ -101,7 +97,6 @@ with pkgs; [
 
   stress
   subversion
-
   #tdesktop
   transmission
   usbutils
@@ -126,13 +121,14 @@ with pkgs; [
   nix-serve
   nixops
   nixos-generators
-  niv
+  #niv
 
   # PHP
-  php # My custom php
-  php73Packages.composer
+  #php # My custom php
+  #php73Packages.composer
   # Python
   python
+  #python27Packages.fontforge
   python3
   python37Packages.pip
   qt5.qtwayland
@@ -144,5 +140,4 @@ with pkgs; [
   up
 
   wireguard
-
 ]
