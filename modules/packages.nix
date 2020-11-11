@@ -63,6 +63,8 @@ with pkgs; [
   #libva
   libvdpau
   lsof
+  libselinux
+
 
   ly
   #maven

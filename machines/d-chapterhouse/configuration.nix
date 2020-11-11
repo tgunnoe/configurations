@@ -1,16 +1,18 @@
 { config, pkgs, options, ... }:
 let
-  home-manager = builtins.fetchTarball https://github.com/rycee/home-manager/archive/release-20.03.tar.gz;
-  unstablepkgs = import <nixos-unstable> {};
+  home-manager = builtins.fetchTarball https://github.com/rycee/home-manager/archive/release-20.09.tar.gz;
+  nixos-20-09 = builtins.fetchTarball https://github.com/NixOS/nixpkgs/archive/96052f35023070072cd5ac0f17a97a2a2269d5b9.tar.gz;
+  nixos-unstable = builtins.fetchTarball https://github.com/NixOS/nixpkgs/archive/b839d4a8557adc80e522f674529e586ab2a88d23.tar.gz;
 in
 {
   nix = {
     nixPath = [
-      "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos"
+      "nixpkgs=${nixos-20-09}"
       "nixos-config=${builtins.getEnv ("HOME")}/src/configurations/machines/d-chapterhouse/configuration.nix:/nix/var/nix/profiles/per-user/root/channels"
     ];
     # package = pkgs.nixUnstable;
   };
+  nixpkgs.config.allowUnfree = true;
   imports = [
     "${home-manager}/nixos"
     ../../modules/home.nix
@@ -92,6 +94,9 @@ in
     enable = true;
     #package = unstablepkgs.mesa.drivers;
     driSupport32Bit = true;
+    extraPackages = with pkgs; [
+      amdvlk
+    ];
     extraPackages32 = with pkgs.pkgsi686Linux; [ libva ];
   };
   hardware.pulseaudio.support32Bit = true;
@@ -101,7 +106,7 @@ in
 
     desktop = {
       extraPkgs = with pkgs; [
-        android-studio
+        #android-studio
         #pkgs.pkgsi686Linux.freetype
         nfs-utils
         ntfs3g
@@ -111,25 +116,25 @@ in
         postman
         radeontools
         radeontop
-        riot-web
-        riot-desktop
+        #riot-web
+        #riot-desktop
         #rkdeveloptool
         spotify
-        unstablepkgs.lutris
+        lutris
         signal-desktop
         steam
         #steam-run
         #springLobby
         (steam.override {
           extraPkgs = pkgs: [ locale fontconfig iana-etc steamcontroller ];
-          #        nativeOnly = true;
+          nativeOnly = true;
         }).run
         tdesktop
         #wine
         wineWowPackages.stable
         winetricks
         protontricks
-        torbrowser
+        #torbrowser
         vulkan-loader
         vulkan-tools
         #slack
