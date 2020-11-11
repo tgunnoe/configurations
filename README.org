@@ -1,7 +1,7 @@
 * About
 [[https://builtwithnix.org][https://img.shields.io/badge/Built_With-Nix-5277C3.svg?logo=nixos&labelColor=73C3D5]]
 
-  A collection of machine configurations, expressed in [[https://nixos.org/nix][Nix]]
+  A collection of machine configurations, expressed in [[https://nixos.org/nix][Nix]].
   Adapted from [[https://github.com/cmacrae/config][cmacrae/config]] & [[https://github.com/rycee/home-manager][rycee/home-manager]]
 
 
