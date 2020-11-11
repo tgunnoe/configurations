@@ -16,7 +16,7 @@ let
   #   rev = "ce21dafd9a016ef3ed4ba3988112bcf33497fc83";
   #   sha256 = "04ldklkmc75azs6lzxfivl7qs34041d63fan6yindj936r4kqcsp";
   # };
-  nurNoPkgs = import (builtins.fetchTarball "https://github.com/nix-community/NUR/archive/master.tar.gz")  { };
+  nurNoPkgs = import (builtins.fetchTarball "https://github.com/nix-community/NUR/archive/ea1ad71eaacb0f40587d6a9b499f51da80706a56.tar.gz")  { };
   unstable = import
     (builtins.fetchTarball https://github.com/nixos/nixpkgs/archive/nixos-unstable.tar.gz)
     # reuse the current configuration
