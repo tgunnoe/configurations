@@ -69,69 +69,69 @@ in
   networking = {
     hostId = "b16be668";
     hostName = "rakis";
-    #networkmanager.enable = true;
+    networkmanager.enable = true;
   };
 
-#   local = {
-#     home.git.userEmail = "t@gvno.net";
+  local = {
+    home.git.userEmail = "t@gvno.net";
 
-#     desktop = {
-#       extraPkgs = with pkgs; [
-#         light
-#         nfs-utils
-#         lm_sensors
-#       ];
+    desktop = {
+      extraPkgs = with pkgs; [
+        light
+        nfs-utils
+        lm_sensors
+      ];
 
-#       sway = {
-#         inputs = {
-#           "9610:30:HAILUCK_CO.,LTD_USB_KEYBOARD" = {
-#             xkb_layout = "us(dvorak)";
-#             xkb_variant = ",nodeadkeys";
-#             xkb_options = "ctrl:nocaps";
-#           };
+      sway = {
+        inputs = {
+          "9610:30:HAILUCK_CO.,LTD_USB_KEYBOARD" = {
+            xkb_layout = "us(dvorak)";
+            xkb_variant = ",nodeadkeys";
+            xkb_options = "ctrl:nocaps";
+          };
 
-#           "9610:30:HAILUCK_CO.,LTD_USB_KEYBOARD_Touchpad" = {
-#             accel_profile = "adaptive";
-#             pointer_accel = "0.3";
-#             tap = "enabled";
-#             dwt = "enabled";
-#             natural_scroll = "disabled";
-#             middle_emulation = "enabled";
-#           };
-#         };
+          "9610:30:HAILUCK_CO.,LTD_USB_KEYBOARD_Touchpad" = {
+            accel_profile = "adaptive";
+            pointer_accel = "0.3";
+            tap = "enabled";
+            dwt = "enabled";
+            natural_scroll = "disabled";
+            middle_emulation = "enabled";
+          };
+        };
 
-#         outputs = [
-#           { eDP1 = {};}
+        outputs = [
+          { eDP1 = {};}
 
-#           {
-#             "DP-2" = {
-#               position = "0,0";
-#               #transform = "270";
-#               resolution = "3840x2160";
-#             };
+          {
+            "DP-2" = {
+              position = "0,0";
+              #transform = "270";
+              resolution = "3840x2160";
+            };
 
-#             "HDMI-A-2" = { position = "1440,470"; };
-#             "eDP-1" = { position = "1440,1910"; };
-#           }
+            "HDMI-A-2" = { position = "1440,470"; };
+            "eDP-1" = { position = "1440,1910"; };
+          }
 
-#           {
-#             "DP-3" = { position = "450,0"; };
-#             "DP-4" = { position = "0,1440"; };
-#             "eDP-1" = { position = "800,2880"; };
-#           }
-#         ];
+          {
+            "DP-3" = { position = "450,0"; };
+            "DP-4" = { position = "0,1440"; };
+            "eDP-1" = { position = "800,2880"; };
+          }
+        ];
 
-#         extraConfig = ''
-#           bindsym $mod+Print exec slurp | grim -g - - | wl-copy
-#           workspace 1 output eDP-1
-#           workspace 2 output DP-1
-#           workspace 3 output HDMI-A-2
-#           workspace 4 output eDP-1
-#           workspace 5 output eDP-1
-#         '';
-#       };
-#     };
-#   };
+        extraConfig = ''
+          bindsym $mod+Print exec slurp | grim -g - - | wl-copy
+          workspace 1 output eDP-1
+          workspace 2 output DP-1
+          workspace 3 output HDMI-A-2
+          workspace 4 output eDP-1
+          workspace 5 output eDP-1
+        '';
+      };
+    };
+  };
 #   virtualisation = {
 # #     anbox = {
 # #       enable = true;
