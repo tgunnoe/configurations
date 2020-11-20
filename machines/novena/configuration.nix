@@ -1,6 +1,6 @@
 { config, pkgs, options, lib, ... }:
 let
-  home-manager = builtins.fetchTarball https://github.com/rycee/home-manager/archive/release-20.03.tar.gz;
+  home-manager = builtins.fetchTarball https://github.com/rycee/home-manager/archive/master.tar.gz;
   nixos-novena = builtins.fetchTarball https://github.com/novena-next/nixos-novena/archive/master.tar.gz;
 in
 {
@@ -18,11 +18,11 @@ in
   nix.binaryCachePublicKeys = [ "nixos-arm.dezgeg.me-1:xBaUKS3n17BZPKeyxL4JfbTqECsT+ysbDJz29kLFRW0=%" ];
 
   imports = [
-    ../../../nixpkgs/nixos/modules/installer/cd-dvd/sd-image-armv7l-multiplatform.nix
-    #"${home-manager}/nixos"
-    #../../modules/home.nix
-    #../../modules/desktop.nix
-    #./hardware-configuration.nix
+    #../../../nixpkgs/nixos/modules/installer/cd-dvd/sd-image-armv7l-multiplatform.nix
+    "${home-manager}/nixos"
+    ../../modules/home.nix
+    ../../modules/desktop.nix
+    ./hardware-configuration.nix
   ];
 
   boot = {
