@@ -357,7 +357,15 @@ in with pkgs.stdenv; with lib; {
       }
 
 
-      { services.emacs.enable =  true; }
+      {
+        services.emacs.enable =  true;
+        services.redshift = {
+          enable = true;
+          package = pkgs.redshift-wlr;
+          latitude = "37";
+          longitude = "-81";
+        };
+      }
 
     ];
   };
