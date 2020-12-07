@@ -24,8 +24,31 @@ in
     kernelPackages = pkgs.linuxPackages_latest;
     kernelModules = [ "kvm-amd" "kvm-intel" ];
     loader = {
-      # efi.canTouchEfiVariables = true;
-      systemd-boot.enable = true;
+      efi = {
+        canTouchEfiVariables = true;
+        efiSysMountPoint = "/boot/efi";
+      };
+      grub = {
+        enable = true;
+        device = "nodev";
+        version = 2;
+        efiSupport = true;
+        enableCryptodisk = true;
+      };
+    };
+    initrd = {
+      secrets = {
+        "keyfile0.bin" = "/etc/secrets/initrd/keyfile0.bin";
+      };
+      luks.devices = {
+        root = {
+          name = "root";
+          device = "/dev/disk/by-uuid/6e57d03c-999a-47e1-a38c-aca0e55b4013"; # UUID for /dev/nvme01np2
+          preLVM = true;
+          keyFile = "/keyfile0.bin";
+          allowDiscards = true;
+        };
+      };
     };
 
   # grub = {
@@ -113,13 +136,13 @@ in
         openjk
         os-prober
         pencil
-        postman
+        #postman
         radeontools
         radeontop
         #riot-web
         #riot-desktop
         #rkdeveloptool
-        spotify
+        #spotify
         lutris
         signal-desktop
         steam
@@ -208,11 +231,7 @@ in
       onBoot = "ignore";
       onShutdown = "shutdown";
     };
-    virtualbox = {
-      host = {
-        enable = true;
-      };
-    };
+
   };
 
   #security.sudo.extraConfig = ''
