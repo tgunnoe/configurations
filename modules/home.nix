@@ -53,12 +53,12 @@ in with pkgs.stdenv; with lib; {
     time.timeZone = "America/New_York";
     nix.trustedUsers = [ "root" "tgunnoe" ];
     nixpkgs.config.allowUnfree = true;
-    nix = {
-      package = pkgs.nixUnstable;
-      extraOptions = ''
-        experimental-features = nix-command flakes
-      '';
-    };
+    # nix = {
+    #   package = pkgs.nixUnstable;
+    #   extraOptions = ''
+    #     experimental-features = nix-command flakes
+    #   '';
+    # };
     # nix.extraOptions = ''
     #   plugin-files = ${pkgs.nix-plugins.override {
     #            nix = config.nix.package; }}/lib/nix/plugins/libnix-extra-builtins.so
@@ -284,7 +284,17 @@ in with pkgs.stdenv; with lib; {
           '';
           };
         }; # /programs
-
+        programs.kitty = {
+          enable = true;
+          settings = {
+            scrollback_lines = 10000;
+            background_opacity = "0.7";
+            window_padding_width = "10.0";
+            wheel_scroll_multiplier = "15.0";
+            touch_scroll_multiplier = "10.0";
+            font_size = "16.0";
+          };
+        };
         # programs.alacritty = {
         #   enable = true;
         #   settings = mkMerge [
