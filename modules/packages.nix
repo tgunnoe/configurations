@@ -22,6 +22,7 @@ let
 in
 
 with pkgs; [
+  commandergenius
 
   autoconf
   automake
@@ -100,7 +101,8 @@ with pkgs; [
   stress
   subversion
   #tdesktop
-  transmission
+  #transmission
+  transmission-gtk
   usbutils
   wget
   #ycmd
@@ -140,6 +142,10 @@ with pkgs; [
   pass
   rsync
   up
+
+  texlive.combined.scheme-full
+
+  pandoc
 
   wireguard
 ]

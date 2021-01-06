@@ -292,7 +292,7 @@ in with pkgs.stdenv; with lib; {
             window_padding_width = "10.0";
             wheel_scroll_multiplier = "15.0";
             touch_scroll_multiplier = "10.0";
-            font_size = "16.0";
+            font_size = "12.0";
           };
         };
         # programs.alacritty = {

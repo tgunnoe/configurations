@@ -104,6 +104,7 @@ in with local.lib; {
         "wheel"
       ];
     };
+    programs.adb.enable = true;
     programs.light.enable = true;
     programs.sway = {
       enable = true;
@@ -185,7 +186,7 @@ in with local.lib; {
 
       xdg.configFile."mako/config".text = ''
         font=DejaVu Sans 11
-        text-color=#1D2021D9
+        text-color=#ffffff
         background-color=#00000099
         border-color=#0D6678D9
         border-size=3

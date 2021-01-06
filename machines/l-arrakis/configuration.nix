@@ -159,25 +159,26 @@ in
             xkb_options = "ctrl:nocaps";
           };
 
-          "1739:0:Synaptics_TM3381-002" = {
-            pointer_accel = "0.7";
+          "1739:30382:DLL0704:01_06CB:76AE_Touchpad" = {
+            accel_profile = "adaptive";
+            pointer_accel = "0.3";
             tap = "enabled";
             dwt = "enabled";
-            natural_scroll = "enabled";
+            drag = "enabled";
+            middle_emulation = "enabled";
+            natural_scroll = "disabled";
           };
         };
 
         outputs = [
 
           {
-            "eDP-2" = {
+            "eDP-1" = {
               position = "0,0";
               #transform = "270";
               resolution = "3200x1800";
+              scale = "1.5";
             };
-
-            "HDMI-A-2" = { position = "1440,470"; };
-            "eDP-1" = { position = "1440,1910"; };
           }
 
         ];
